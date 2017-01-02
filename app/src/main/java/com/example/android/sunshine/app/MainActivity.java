@@ -36,6 +36,10 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocation = Utility.getPreferredLocation(this);
+
+        // There is a conditional configuration occurring here that android
+        // handles to choose the default or sw600dp activity main view.
+        // Only one as the weather_detail_container view.
         setContentView(R.layout.activity_main);
         if(findViewById(R.id.weather_detail_container) != null) {
             // the detail container view will be present only in the large-screen layouts
