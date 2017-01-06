@@ -50,6 +50,8 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
 
     private int mPosition = ListView.INVALID_POSITION;
 
+    private boolean mUseTodayLayout;
+
     private static final String SELECTED_KEY = "selected_position";
 
     private static final int FORECAST_LOADER = 0;
@@ -131,6 +133,7 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
         // The ForecastAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -307,6 +310,13 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
     void onLocationChanged() {
         updateWeather();
         getLoaderManager().restartLoader(FORECAST_LOADER,null,this);
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
     }
 
 }

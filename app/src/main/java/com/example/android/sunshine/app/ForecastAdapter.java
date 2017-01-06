@@ -15,9 +15,12 @@ import android.widget.TextView;
  */
 public class ForecastAdapter extends CursorAdapter {
 
+    private final int VIEW_TYPE_COUNT = 2;
     private final int VIEW_TYPE_TODAY = 0;
     private final int VIEW_TYPE_FUTURE_DAY = 1;
-    private final int VIEW_TYPE_COUNT = 2;
+
+    // Flag to determine if we want to use a separate view for "today".
+    private boolean mUseTodayLayout = true;
 
     /*
         Cache of the children views for a forecast list item.
@@ -40,6 +43,15 @@ public class ForecastAdapter extends CursorAdapter {
 
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position==0 && mUseTodayLayout) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
     }
 
     @Override
@@ -118,11 +130,6 @@ public class ForecastAdapter extends CursorAdapter {
         double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
 
         viewHolder.lowTempView.setText(Utility.formatTemperature(context, low, isMetric));
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (position==0) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
     }
 
     @Override
